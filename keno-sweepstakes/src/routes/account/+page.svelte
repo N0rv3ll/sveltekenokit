@@ -7,7 +7,8 @@
     let password = '';
   
     onMount(async () => {
-      const { data: { user } } = await supabase.auth.getUser();
+      const { data } = await supabase.auth.getUser();
+      user = data.user;
       if (user) {
         // Fetch user's game data here
       }
@@ -20,9 +21,9 @@
     }
   
     async function signIn() {
-      const { error } = await supabase.auth.signInWithPassword({ email, password });
+      const { error, data } = await supabase.auth.signInWithPassword({ email, password });
       if (error) alert(error.message);
-      else user = (await supabase.auth.getUser()).data.user;
+      else user = data.user;
     }
   
     async function signOut() {
